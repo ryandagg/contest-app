@@ -1,4 +1,16 @@
 extends layout
 
 block content
-	h1 Hello Boulder!
+	form.input-form(method='post', action='handleForm')
+		input(type='text', name='name', placeholder='Your name') 
+		br
+		input(type='text', name='url', placeholder='URL of video')
+		br
+		input(type='text', name='title', placeholder='title')
+		br
+		input(type='text', name='description', placeholder='description of video')
+		br
+		input(type='submit')
+
+	div.view-submissions
+		a(action='sumbissions', href='submissions') View Submissions
