@@ -58,6 +58,17 @@ var shuffle = function(array) {
 
   return array;
 }
+
+var getWinner = function() {
+	var rating = 0;
+	for(var ii = 0; ii < data.length; ii++) {
+		if(data[ii].votes > rating) {
+			rating = data[ii].votes;
+		}
+	}
+	return data[rating]
+}
+
 // add to data
 
 data.push(new Submission("Ryan", urlFormatter("https://www.youtube.com/watch?v=05tKob_K76I"), "UFC (MMA) Best Knockouts 2014 HD", "BEST KNOCKOUTS EVER IN 2014 UFC MMA SUBSCRIBE SUBSCRIBE TO FIND MORE UFC FIGHTS AND KNOCKOUTS !!!"));
@@ -73,7 +84,7 @@ videoMatcher(data);
 // console.log("ordered: ", contestOrder);
 
 shuffle(contestOrder);
-console.log("shuffled: ", contestOrder);
+// console.log("shuffled: ", contestOrder);
 
 app.get('/', function(req, res) {
 	if(data.length < 8) {
@@ -95,6 +106,12 @@ app.get('/submissions-over', function(req, res) {
 	res.render('submissions-over');
 })
 
+app.get('/winner', function(req, res) {
+	res.render('winnerPage', {
+		winner: getWinner()
+	})
+});
+
 app.post('/handleForm', function(req, res) {
 	data.push(new Submission(req.body.name, urlFormatter(req.body.url), req.body.title, req.body.description));
 	res.redirect('/');
@@ -106,7 +123,7 @@ app.post('/btn1', function(req, res) {
 		videoCounter++;
 	}
 	else {
-		
+		res.redirect("/winner");
 	}
 
 	res.redirect('/submissions');

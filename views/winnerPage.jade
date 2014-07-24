@@ -1,0 +1,11 @@
+extends layout
+
+block content
+	h1 The winner is:
+	div.winner
+		h2 #{winner.title}
+		iframe(width="360", height="600", src='#{winner.url}', frameborder="0", allowfullscreen)
+		h4 Description: 
+		p #{winner.description}
+		h4 Submited by: 
+		p #{winner.name}
