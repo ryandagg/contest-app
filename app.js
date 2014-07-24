@@ -8,6 +8,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser());
 
 var data = [];
+var videoCounter = 0;
 
 var Submission = function(name, url, title, description) {
 	this.name = name;
@@ -62,9 +63,9 @@ var shuffle = function(array) {
 data.push(new Submission("Ryan", urlFormatter("https://www.youtube.com/watch?v=05tKob_K76I"), "UFC (MMA) Best Knockouts 2014 HD", "BEST KNOCKOUTS EVER IN 2014 UFC MMA SUBSCRIBE SUBSCRIBE TO FIND MORE UFC FIGHTS AND KNOCKOUTS !!!"));
 data.push(new Submission("Joe", urlFormatter("https://www.youtube.com/watch?v=rwU1ahN9Kcs"), "Kimbo Slice 19 Second Knockout NEW 2012", "Kimbo Slice Knocks Out Bo Cantrell In 19 Seconds"));
 data.push(new Submission("Jeff", urlFormatter("https://www.youtube.com/watch?v=fs-CQ_QJ9rQ"), "Butterbean best knockouts", "best knockouts"));
-data.push(new Submission("Juan", urlFormatter("https://www.youtube.com/watch?v=fs-CQ_QJ9rQ"), "Butterbean best knockouts", "best knockouts"));
-data.push(new Submission("Seb", urlFormatter("https://www.youtube.com/watch?v=fs-CQ_QJ9rQ"), "Butterbean best knockouts", "best knockouts"));
-data.push(new Submission("Gage", urlFormatter("https://www.youtube.com/watch?v=fs-CQ_QJ9rQ"), "Butterbean best knockouts", "best knockouts"));
+data.push(new Submission("Juan", urlFormatter("https://www.youtube.com/watch?v=uS7b4A0l2rA"), "UFC / MMA Ultimate Top 100 Female Knockouts", "best knockouts"));
+data.push(new Submission("Seb", urlFormatter("https://www.youtube.com/watch?v=cHNxw8SXC5Q"), " UFC Ultimate Top 100 Knockouts", "best knockouts"));
+data.push(new Submission("Gage", urlFormatter("https://www.youtube.com/watch?v=z1NVycQ8GFo"), "Best UFC Fighters 2014 Most Entertaining Fighters", "best knockouts"));
 data.push(new Submission("George", urlFormatter("https://www.youtube.com/watch?v=IymYwo182I0"), "Anderson Silva is ready.", "MMA H.E.A.T.'s Karyn Bryant spends a few minutes with legendary UFC Middleweight Anderson Silva, and hears what he has to say about doctor's clearing him to train full steam after the brutal leg break he suffered in December at UFC 168. The former champion discusses the highs and lows of his recovery, his plans "));
 
 
@@ -85,7 +86,8 @@ app.get('/', function(req, res) {
 
 app.get('/submissions', function(req, res) {
 	res.render('submissions', {
-		submissions: data
+		submission1: contestOrder[videoCounter][0],
+		submission2: contestOrder[videoCounter][1]
 	});
 })
 
@@ -94,9 +96,26 @@ app.get('/submissions-over', function(req, res) {
 })
 
 app.post('/handleForm', function(req, res) {
-	console.log(req.body)
 	data.push(new Submission(req.body.name, urlFormatter(req.body.url), req.body.title, req.body.description));
 	res.redirect('/');
+})
+
+app.post('/btn1', function(req, res) {
+	contestOrder[videoCounter][0].votes++;
+	if(contestOrder[videoCounter + 1]) {
+		videoCounter++;
+	}
+	else {
+		
+	}
+
+	res.redirect('/submissions');
+})
+
+app.post('/btn2', function(req, res) {
+	contestOrder[videoCounter][1].votes++;
+	videoCounter++;
+	res.redirect('/submissions');
 })
 
 var server = app.listen(8874, function() {

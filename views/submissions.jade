@@ -2,12 +2,23 @@ extends layout
 
 block content
 	div.submissions
-		for submission in submissions
-			.submission
-				h2 #{submission.title}
-				iframe(width="560", height="315", src='#{submission.url}', frameborder="0", allowfullscreen)
-				h4 Description: 
-				p #{submission.description}
-				h4 Submited by: 
-				p #{submission.name}
-				p ---------------------------------------------------------------------------------------------------------------------------------------
+		div.submission
+			form(method='post', action="btn1")
+				button(name=btn1) Vote vid 1
+			h2 #{submission1.title}
+			iframe(width="360", height="315", src='#{submission1.url}', frameborder="0", allowfullscreen)
+			h4 Description: 
+			p #{submission1.description}
+			h4 Submited by: 
+			p #{submission1.name}
+			
+		div.submission
+			form(method='post', action="btn2")
+				button(name=btn2) Vote vid 2
+			h2 #{submission2.title}
+			iframe(width="360", height="315", src='#{submission2.url}', frameborder="0", allowfullscreen)
+			h4 Description: 
+			p #{submission2.description}
+			h4 Submited by: 
+			p #{submission2.name}
+			

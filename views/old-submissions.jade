@@ -1,0 +1,13 @@
+extends layout
+
+block content
+	div.submissions
+		for submission in submissions
+			.submission
+				h2 #{submission.title}
+				iframe(width="560", height="315", src='#{submission.url}', frameborder="0", allowfullscreen)
+				h4 Description: 
+				p #{submission.description}
+				h4 Submited by: 
+				p #{submission.name}
+				p ---------------------------------------------------------------------------------------------------------------------------------------

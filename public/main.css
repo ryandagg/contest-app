@@ -5,3 +5,8 @@ body {
 .view-submissions {
 	padding-top: 2%;
 }
+
+.submission {
+	float: left;
+	padding-right: 2%;
+}
