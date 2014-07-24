@@ -8,8 +8,9 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser());
 
 var data = [];
-var Submission = function(submitter, url, title, description) {
-	this.submitter = submitter;
+
+var Submission = function(name, url, title, description) {
+	this.name = name;
 	this.url = url;
 	this.title = title;
 	this.description = description;
@@ -27,7 +28,7 @@ app.get('/submissions', function(req, res) {
 
 app.post('/handleForm', function(req, res) {
 	console.log(req.body)
-	data.push(new Submission(req.body.submitter, req.body.url, req.body.title, req.body.description));
+	data.push(new Submission(req.body.name, req.body.url, req.body.title, req.body.description));
 	res.redirect('/');
 })
 

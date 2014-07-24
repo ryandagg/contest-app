@@ -5,6 +5,6 @@ block content
 		for submission in submissions
 			.submission
 				h2 #{submission.title}
-				p #{submission.url}
-				p #{submission.description}
-				p #{submission.submitter}
+				iframe(width="560", height="315", src='#{submission.url}', frameborder="0", allowfullscreen)
+				p Description: #{submission.description}
+				p Submited by: #{submission.name}
