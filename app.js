@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var data = require("./models/data.js");
 
 var app = express();
 app.set('view engine', 'jade');
@@ -7,132 +8,155 @@ app.set('views', __dirname + '/views');
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser());
 
-var data = [];
-var videoCounter = 0;
+// var data = [];
+// var videoCounter = 0;
 
-var Submission = function(name, url, title, description) {
-	this.name = name;
-	this.url = url;
-	this.title = title;
-	this.description = description;
-	this.votes = 0;
-}
+// var Submission = function(name, url, title, description) {
+// 	this.name = name;
+// 	this.url = url;
+// 	this.title = title;
+// 	this.description = description;
+// 	this.votes = 0;
+// }
 
-var urlFormatter = function(url) {
-	var id = url.substr(url.indexOf("=") + 1);
-	var formatted = "//www.youtube.com/embed/" + id;
-	return formatted
-}
+// var urlFormatter = function(url) {
+// 	var id = url.substr(url.indexOf("=") + 1);
+// 	var formatted = "//www.youtube.com/embed/" + id;
+// 	return formatted
+// }
 
-var contestOrder = []
+// var contestOrder = []
 
 // Round Robin algorithm to have each video compete against all others. Have first player play everyone, then remove from array, repeat. Then randomize array.
-var videoMatcher = function(array) {
-	while(array.length > 1) {
-		for(var ii = 1; ii < array.length; ii++) {
-			contestOrder.push([array[0], array[ii]]);
-			// console.log(array);
-		}
-		array.shift();
-	}
-}
+// var videoMatcher = function(array) {
+// 	while(array.length > 1) {
+// 		for(var ii = 1; ii < array.length; ii++) {
+// 			contestOrder.push([array[0], array[ii]]);
+// 			// console.log(array);
+// 		}
+// 		array.shift();
+// 	}
+// }
 
-// used to shuffle contestOrder
-var shuffle = function(array) {
-  var currentIndex = array.length;
-  var temporaryValue;
-  var randomIndex;
+// // used to shuffle contestOrder
+// var shuffle = function(array) {
+//   var currentIndex = array.length;
+//   var temporaryValue;
+//   var randomIndex;
 
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
+//   // While there remain elements to shuffle...
+//   while (0 !== currentIndex) {
 
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
+//     // Pick a remaining element...
+//     randomIndex = Math.floor(Math.random() * currentIndex);
+//     currentIndex -= 1;
 
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
+//     // And swap it with the current element.
+//     temporaryValue = array[currentIndex];
+//     array[currentIndex] = array[randomIndex];
+//     array[randomIndex] = temporaryValue;
+//   }
 
-  return array;
-}
+//   return array;
+// }
 
-var getWinner = function() {
-	var rating = 0;
-	for(var ii = 0; ii < data.length; ii++) {
-		if(data[ii].votes > rating) {
-			rating = data[ii].votes;
-		}
-	}
-	return data[rating]
-}
+// var getWinner = function() {
+// 	var rating = 0;
+// 	for(var ii = 0; ii < data.length; ii++) {
+// 		if(data[ii].votes > rating) {
+// 			rating = data[ii].votes;
+// 		}
+// 	}
+// 	return data[rating]
+// }
 
-// add to data
+// // add to data
 
-data.push(new Submission("Ryan", urlFormatter("https://www.youtube.com/watch?v=05tKob_K76I"), "UFC (MMA) Best Knockouts 2014 HD", "BEST KNOCKOUTS EVER IN 2014 UFC MMA SUBSCRIBE SUBSCRIBE TO FIND MORE UFC FIGHTS AND KNOCKOUTS !!!"));
-data.push(new Submission("Joe", urlFormatter("https://www.youtube.com/watch?v=rwU1ahN9Kcs"), "Kimbo Slice 19 Second Knockout NEW 2012", "Kimbo Slice Knocks Out Bo Cantrell In 19 Seconds"));
-data.push(new Submission("Jeff", urlFormatter("https://www.youtube.com/watch?v=fs-CQ_QJ9rQ"), "Butterbean best knockouts", "best knockouts"));
-data.push(new Submission("Juan", urlFormatter("https://www.youtube.com/watch?v=uS7b4A0l2rA"), "UFC / MMA Ultimate Top 100 Female Knockouts", "best knockouts"));
-data.push(new Submission("Seb", urlFormatter("https://www.youtube.com/watch?v=cHNxw8SXC5Q"), " UFC Ultimate Top 100 Knockouts", "best knockouts"));
-data.push(new Submission("Gage", urlFormatter("https://www.youtube.com/watch?v=z1NVycQ8GFo"), "Best UFC Fighters 2014 Most Entertaining Fighters", "best knockouts"));
-data.push(new Submission("George", urlFormatter("https://www.youtube.com/watch?v=IymYwo182I0"), "Anderson Silva is ready.", "MMA H.E.A.T.'s Karyn Bryant spends a few minutes with legendary UFC Middleweight Anderson Silva, and hears what he has to say about doctor's clearing him to train full steam after the brutal leg break he suffered in December at UFC 168. The former champion discusses the highs and lows of his recovery, his plans "));
+// data.push(new Submission("Ryan", urlFormatter("https://www.youtube.com/watch?v=05tKob_K76I"), "UFC (MMA) Best Knockouts 2014 HD", "BEST KNOCKOUTS EVER IN 2014 UFC MMA SUBSCRIBE SUBSCRIBE TO FIND MORE UFC FIGHTS AND KNOCKOUTS !!!"));
+// data.push(new Submission("Joe", urlFormatter("https://www.youtube.com/watch?v=rwU1ahN9Kcs"), "Kimbo Slice 19 Second Knockout NEW 2012", "Kimbo Slice Knocks Out Bo Cantrell In 19 Seconds"));
+// data.push(new Submission("Jeff", urlFormatter("https://www.youtube.com/watch?v=fs-CQ_QJ9rQ"), "Butterbean best knockouts", "best knockouts"));
+// data.push(new Submission("Juan", urlFormatter("https://www.youtube.com/watch?v=uS7b4A0l2rA"), "UFC / MMA Ultimate Top 100 Female Knockouts", "best knockouts"));
+// data.push(new Submission("Seb", urlFormatter("https://www.youtube.com/watch?v=cHNxw8SXC5Q"), " UFC Ultimate Top 100 Knockouts", "best knockouts"));
+// data.push(new Submission("Gage", urlFormatter("https://www.youtube.com/watch?v=z1NVycQ8GFo"), "Best UFC Fighters 2014 Most Entertaining Fighters", "best knockouts"));
+// data.push(new Submission("George", urlFormatter("https://www.youtube.com/watch?v=IymYwo182I0"), "Anderson Silva is ready.", "MMA H.E.A.T.'s Karyn Bryant spends a few minutes with legendary UFC Middleweight Anderson Silva, and hears what he has to say about doctor's clearing him to train full steam after the brutal leg break he suffered in December at UFC 168. The former champion discusses the highs and lows of his recovery, his plans "));
 
 
-videoMatcher(data);
-// console.log("ordered: ", contestOrder);
+// videoMatcher(data);
+// // console.log("ordered: ", contestOrder);
 
-shuffle(contestOrder);
-// console.log("shuffled: ", contestOrder);
-
+// shuffle(contestOrder);
+// // console.log("shuffled: ", contestOrder);
+// 
+// console.log(data.mainData.length);
 app.get('/', function(req, res) {
-	if(data.length < 8) {
+	if(data.mainData.length < 8) {
 		res.render('index');
 	}
 	else {
 		res.redirect('/submissions-over')
 	}
 });
-
+// console.log(data.contestOrder[data.videoCounter][0]);
 app.get('/submissions', function(req, res) {
+	console.log("submissions before setup: ", data.mainData.length);
+	data.setupContest();
+	console.log("submissions after setup: ", data.mainData.length);
+	// console.log("submissions page load:data.contestOrder: ", data.contestOrder);
+	// console.log(data.videoCounter);
+
 	res.render('submissions', {
-		submission1: contestOrder[videoCounter][0],
-		submission2: contestOrder[videoCounter][1]
+		submission1: data.contestOrder[data.videoCounter][0],
+		submission2: data.contestOrder[data.videoCounter][1]
 	});
 })
 
 app.get('/submissions-over', function(req, res) {
 	res.render('submissions-over');
 })
+console.log("outside winner maindata.length", data.mainData.length);
 
+// console.log("outside: ", data.getWinner());
 app.get('/winner', function(req, res) {
+	// console.log("inside: ", data.getWinner());
+	console.log("inside winner maindata.length", data.mainData.length);
+
 	res.render('winnerPage', {
-		winner: getWinner()
+		winner: data.getWinner()
 	})
 });
 
 app.post('/handleForm', function(req, res) {
-	data.push(new Submission(req.body.name, urlFormatter(req.body.url), req.body.title, req.body.description));
+	data.pushSubmission(req.body.name, req.body.url, req.body.title, req.body.description);
 	res.redirect('/');
 })
 
 app.post('/btn1', function(req, res) {
-	contestOrder[videoCounter][0].votes++;
-	if(contestOrder[videoCounter + 1]) {
-		videoCounter++;
+	// console.log("bt1 data: ", data)
+	// console.log("contestOrder: ", data.contestOrder[data.videoCounter]);
+	data.contestOrder[data.videoCounter][0].votes++;
+	// console.log("2contestOrder: ", data.contestOrder[data.videoCounter]);
+	console.log("btn1 inside data length", data.mainData.length);
+	if(data.contestOrder[data.videoCounter + 1]) {
+		data.videoCounter++;
+		res.redirect('/submissions');
 	}
 	else {
 		res.redirect("/winner");
 	}
 
-	res.redirect('/submissions');
 })
 
 app.post('/btn2', function(req, res) {
-	contestOrder[videoCounter][1].votes++;
-	videoCounter++;
-	res.redirect('/submissions');
+	// console.log("contestOrder: ", data.contestOrder[data.videoCounter]);
+	data.contestOrder[data.videoCounter][1].votes++; //throwing an error
+	// console.log("2contestOrder: ", data.contestOrder[data.videoCounter]);
+	if(data.contestOrder[data.videoCounter + 1]) {
+		data.videoCounter++;
+		res.redirect('/submissions');
+	}
+	else {
+		res.redirect("/winner");
+	}
 })
 
 var server = app.listen(8874, function() {
