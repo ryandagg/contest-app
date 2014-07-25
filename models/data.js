@@ -19,9 +19,10 @@ var urlFormatter = function(url) {
 
 var videoMatcher = function(array) {
 	tempArray = [];
-	for(var j = 0; j < array.length; j++) {
-		tempArray.push(array[j]);
+	for(var jj = 0; jj < array.length; jj++) {
+		tempArray.push(array[jj]);
 	}
+	// console.log("data videoMatcher: ", tempArray) //currently working
 	while(tempArray.length > 1) {
 		for(var ii = 1; ii < tempArray.length; ii++) {
 			contestOrder.push([tempArray[0], tempArray[ii]]);
@@ -29,28 +30,29 @@ var videoMatcher = function(array) {
 		}
 		tempArray.shift();
 	}
+	// console.log("data videoMatcher contestOrder: ", contestOrder); // this is working
 }
 
 // used to shuffle contestOrder
 var shuffle = function(array) {
-  var currentIndex = array.length;
-  var temporaryValue;
-  var randomIndex;
+	var currentIndex = array.length;
+	var temporaryValue;
+	var randomIndex;
 
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
+	// While there remain elements to shuffle...
+	while (0 !== currentIndex) {
+		// Pick a remaining element...
+		randomIndex = Math.floor(Math.random() * currentIndex);
+		currentIndex -= 1;
 
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
+		// And swap it with the current element.
+		temporaryValue = array[currentIndex];
+		array[currentIndex] = array[randomIndex];
+		array[randomIndex] = temporaryValue;
+	}
+	// console.log("data shuffle contestOrder: ", contestOrder); // this is working
 
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-
-  return array;
+return array;
 }
 
 var setupContest = function() {
